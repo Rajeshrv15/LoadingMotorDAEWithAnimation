@@ -16,6 +16,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var _drillBitHolder : SCNNode?
     var anEngineNodes : [SCNNode] = [SCNNode]()
     var strArrayNodesToMove : [String] = [String]()
+    var _iPosActual:Double = -30.0
+    var _iNodeCounter = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,10 +30,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         
-        strArrayNodesToMove.append("group_40")
+        /*strArrayNodesToMove.append("group_40")
         strArrayNodesToMove.append("group_41")
         strArrayNodesToMove.append("group_42")
-        strArrayNodesToMove.append("group_43")
+        strArrayNodesToMove.append("group_43")*/
+        strArrayNodesToMove.append("AllScrews")
         strArrayNodesToMove.append("group_1")
         strArrayNodesToMove.append("group_14")
         strArrayNodesToMove.append("group_7")
@@ -107,29 +110,29 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             var anSCNActions : [SCNAction] = [SCNAction]()
             
             let wait:SCNAction = SCNAction.wait(duration: 10)
-            var iPosition = 0.01
+            var iPosition = 5.0
             
             if result.node.name == "ID5" {
                 print("I am here")
-                var iPosActual:Double = 0.09
+                var iPosActual:Double = -40.0
                 anEngineNodes.forEach { item in
                     print("Applying action on \(item)")
-                    let anloopAction = SCNAction.customAction(duration: 5) { (node, elapsedTime) in
-                        let anMoveAction = SCNAction.move(by: SCNVector3(-iPosActual, 0,0), duration: 3)
+                    /*let anloopAction = SCNAction.customAction(duration: 5) { (node, elapsedTime) in
+                        let anMoveAction = SCNAction.move(by: SCNVector3(iPosActual, 0,0), duration: 3)
                         //let anMoveAction = SCNAction.move(to: SCNVector3(-iPosActual, 0,0), duration: 5)
                         //item.position.x = float_t(iPosActual)
-                        item.runAction(anMoveAction)
+                        item.runAction(SCNAction.sequence([anMoveAction, wait]))
                     }
+                    anSCNActions.append(anloopAction)*/
                     //let anloop = SCNAction.repeatForever(SCNAction.move(to: SCNVector3(-20, 0, 0), duration: 3))
                     //let wait:SCNAction = SCNAction.wait(duration: 3)
-                    anSCNActions.append(anloopAction)
-                    //let anLoopAction = SCNAction.move(by: SCNVector3(iPosActual,0,0), duration: 5)
-                    //item.runAction(SCNAction.sequence([anLoopAction, wait]))
+                    let anLoopAction = SCNAction.move(by: SCNVector3(iPosActual,0,0), duration: 5)
+                    item.runAction(SCNAction.sequence([anLoopAction, wait]))
                     iPosActual = iPosActual + iPosition
                     print(iPosActual)
                 }
-                
-                _drillBitHolder?.runAction(SCNAction.sequence(anSCNActions))
+                //anEngineNodes[3].runAction(SCNAction.sequence(anSCNActions))
+                //_drillBitHolder?.runAction(SCNAction.sequence(anSCNActions))
                 /*let anloop = SCNAction.repeatForever(SCNAction.move(to: SCNVector3(-20, 0, 0), duration: 5))
                 _drillBitHolder?.runAction(anloop)*/
                 
@@ -231,6 +234,20 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         return node
     }
 */
+    
+    @IBAction func Clicknext(_ sender: UIButton) {
+        let iPostition:Double = 5.0
+        let wait:SCNAction = SCNAction.wait(duration: 10)
+        
+        let anLoopAction = SCNAction.move(by: SCNVector3(_iPosActual,0,0), duration: 5)
+        let anSCNNode = anEngineNodes[_iNodeCounter] 
+        anSCNNode.runAction(SCNAction.sequence([anLoopAction, wait]))
+        
+        _iPosActual = _iPosActual + iPostition
+        _iNodeCounter = _iNodeCounter + 1
+        
+    }
+    
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user
