@@ -107,22 +107,26 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             var anSCNActions : [SCNAction] = [SCNAction]()
             
             let wait:SCNAction = SCNAction.wait(duration: 10)
-            var iPosition = 5
+            var iPosition = 0.01
             
             if result.node.name == "ID5" {
                 print("I am here")
-                var iPosActual = -60
+                var iPosActual:Double = 0.09
                 anEngineNodes.forEach { item in
                     print("Applying action on \(item)")
                     let anloopAction = SCNAction.customAction(duration: 5) { (node, elapsedTime) in
-                        item.position.x = float_t(iPosActual)
+                        let anMoveAction = SCNAction.move(by: SCNVector3(-iPosActual, 0,0), duration: 3)
+                        //let anMoveAction = SCNAction.move(to: SCNVector3(-iPosActual, 0,0), duration: 5)
+                        //item.position.x = float_t(iPosActual)
+                        item.runAction(anMoveAction)
                     }
                     //let anloop = SCNAction.repeatForever(SCNAction.move(to: SCNVector3(-20, 0, 0), duration: 3))
                     //let wait:SCNAction = SCNAction.wait(duration: 3)
                     anSCNActions.append(anloopAction)
-                    /*let anLoopAction = SCNAction.move(by: SCNVector3(iPosActual,0,0), duration: 5)
-                    item.runAction(SCNAction.sequence([anLoopAction, wait]))*/
+                    //let anLoopAction = SCNAction.move(by: SCNVector3(iPosActual,0,0), duration: 5)
+                    //item.runAction(SCNAction.sequence([anLoopAction, wait]))
                     iPosActual = iPosActual + iPosition
+                    print(iPosActual)
                 }
                 
                 _drillBitHolder?.runAction(SCNAction.sequence(anSCNActions))
