@@ -236,6 +236,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 */
     
     @IBAction func Clicknext(_ sender: UIButton) {
+        if _iNodeCounter >= anEngineNodes.count { return }
         let iPostition:Double = 5.0
         let wait:SCNAction = SCNAction.wait(duration: 10)
         
@@ -245,7 +246,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         _iPosActual = _iPosActual + iPostition
         _iNodeCounter = _iNodeCounter + 1
-        
     }
     
     
