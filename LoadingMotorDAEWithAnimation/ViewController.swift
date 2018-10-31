@@ -16,7 +16,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var _drillBitHolder : SCNNode?
     var anEngineNodes : [SCNNode] = [SCNNode]()
     var strArrayNodesToMove : [String] = [String]()
-    var _iPosActual:Double = -30.0
+    var _iPosActual:Double = -20.0
     var _iNodeCounter = 0
     
     override func viewDidLoad() {
